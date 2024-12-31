@@ -47,3 +47,11 @@ jobs:
       - name: test jest:test
         run: |
           yo jest:test --filepath acme.test.js --componentName acme
+
+      - name: archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: jest_node_${{ matrix.node-version }}_yo_${{ matrix.yo }}
+          path: |
+            .
+            !generator-jest/**/*
