@@ -1,0 +1,49 @@
+name: e2e
+on:
+  push:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 16, 18, 20]
+        yo:
+          - 2.0.6
+          - 3.0
+          - 4.0
+          - 4.3
+          - 5.0
+          - 5.1
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          path: generator-jest
+
+      - name: setup node ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: install yo@${{ matrix.yo }}
+        run: npm install --globall yo@${{ matrix.yo }}
+
+      - name: setup generator-jest
+        run: |
+          npm ci
+          npm link
+        with:
+          working-directory: generator-jest
+
+      - name: test jest:app
+        run: |
+          yo jest:app --testEnvironment node --coveralls false
+
+      - name: test jest:test
+        run: |
+          yo jest:test --filepath acme.test.js --componentName acme
