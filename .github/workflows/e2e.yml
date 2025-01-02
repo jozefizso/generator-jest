@@ -13,14 +13,23 @@ jobs:
       matrix:
         node-version: [ 16, 18, 20]
         yo:
-          - 2.0.6
-          - 3.0
-          - 4.0
-          - 4.3
-          - 5.0
-          - 5.1
+          - '2.0.6'
+          - '3.0'
+          - '4.0'
+          - '4.3'
+          - '5.0'
+          - '5.1'
+        exclude:
+          - node-version: 18
+            yo: '2.0.6'
+          - node-version: 18
+            yo: '3.0'
+          - node-version: 20
+            yo: '2.0.6'
+          - node-version: 20
+            yo: '3.0'
 
-    name: yo v${{ matrix.yo }} node v${{ matrix.node-version }}
+    name: node v${{ matrix.node-version }} yo v${{ matrix.yo }}
 
     steps:
       - name: checkout
