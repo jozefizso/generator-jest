@@ -65,4 +65,5 @@ jobs:
           name: jest_node_${{ matrix.node-version }}_yo_${{ matrix.yo }}
           path: |
             .
+            !node_modules/**/*
             !generator-jest/**/*
